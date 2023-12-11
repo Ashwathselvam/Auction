@@ -66,7 +66,11 @@ public class AuctionController : ControllerBase
         auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
         auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
 
-        
+        var result = await _context.SaveChangesAsync() > 0;
+        if (result) return Ok();
+
+        return BadRequest("Problem solving changes");
+
     }
 
 }
