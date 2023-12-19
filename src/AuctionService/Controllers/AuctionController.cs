@@ -78,10 +78,31 @@ public class AuctionController : ControllerBase
         auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
         auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
 
+        await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
+
         var result = await _context.SaveChangesAsync() > 0;
         if (result) return Ok();
 
         return BadRequest("Problem solving changes");
+
+    }
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteAuction(Guid id)
+    {
+
+        var auction = await _context.Auctions.FindAsync(id);
+
+        if (auction == null) return NotFound();
+
+        _context.Auctions.Remove(auction);
+
+        await _publishEndpoint.Publish<AuctionDeleted>(new { id = auction.Id.ToString() });
+
+        var result = await _context.SaveChangesAsync() > 0;
+
+        if (!result) return BadRequest("Could not update DB");
+
+        return Ok();
 
     }
 
