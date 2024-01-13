@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0  as build
+WORKDIR /src
+EXPOSE 80
+
+# copy .csproj files and restore as distinct layers. Use of same COPY command
+#for every dockerfile in the project to take advantage of docker caching
+COPY Auction.sln Auction.sln
