@@ -21,3 +21,19 @@ services:
       - 15672:15672
     volumes:
       - /var/lib/mongodb/data
+  auction-svc:
+    image: ashwath06/auction-svc:latest
+    build:
+      context: .
+      dockerfile: src/AuctionService/DockerFile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__DefaultConnection=server=postgres:5432;User Id=postgres;Password=postgrespw;Database=auction
+      - IdentityServiceUrl=http://identity-svc
+    ports:
+      - 7001:80
+    depends_on:
+      - postgres
+      - rabbitmq
