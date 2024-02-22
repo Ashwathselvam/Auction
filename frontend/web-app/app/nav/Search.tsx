@@ -1,6 +1,6 @@
 "use client";
 import { useParamsStore } from "@/hooks/useParamsStore";
-import React, { useState } from "react";
+import React from "react";
 import { FaSearch } from "react-icons/Fa";
 export default function Search() {
   const setParams = useParamsStore((state) => state.setParams);
