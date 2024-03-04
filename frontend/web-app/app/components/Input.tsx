@@ -19,10 +19,12 @@ export default function Input(props: Props) {
       <TextInput
         {...props}
         {...field}
-        type={props}
+        type={props.type || "text"}
         placeholder={props.label}
-        color={errors?.make && "failure"}
-        helperText={errors.make?.message as string}
+        color={
+          fieldState.error ? "failure" : !fieldState.isDirty ? "" : "success"
+        }
+        helperText={fieldState.error?.message}
       />
     </div>
   );
