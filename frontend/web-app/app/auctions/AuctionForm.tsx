@@ -4,21 +4,34 @@ import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Input from "../components/Input";
 import DateInput from "../components/DateInput";
+import { createAuction } from "../actions/auctionActions";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function AuctionForm() {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
     setFocus,
-    formState: { isSubmitting, isValid, isDirty, errors },
+    formState: { isSubmitting, isValid },
   } = useForm({
     mode: "onTouched",
   });
   useEffect(() => {
     setFocus("make");
   }, [setFocus]);
-  function onSubmit(date: FieldValues) {
-    console.log(date);
+  async function onSubmit(data: FieldValues) {
+    try {
+      console.log(data);
+      const res = await createAuction(data);
+      if (res.error) {
+        throw res.error;
+      }
+      router.push("/auctions/details/${res.id}");
+    } catch (error: any) {
+      toast.error(error.status + " " + error.message);
+    }
   }
   return (
     <form className="flex flex-col mt-3 " onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +77,7 @@ export default function AuctionForm() {
       />
       <div className="grid grid-cols-2 gap-3">
         <Input
-          label="Reserve Price (emter 0 if no reserve)"
+          label="Reserve Price (enter 0 if no reserve)"
           name="reservePrice"
           control={control}
           type="number"

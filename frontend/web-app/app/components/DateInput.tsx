@@ -2,13 +2,13 @@ import { Label, TextInput } from "flowbite-react";
 import React from "react";
 import { UseControllerProps, useController } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker, { ReactDatePicker } from "react-datepicker";
+import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 type Props = {
   label: string;
   type?: string;
   showLabel?: string;
 } & UseControllerProps &
-  Partial<ReactDatePicker>;
+  Partial<ReactDatePickerProps>;
 export default function DateInput(props: Props) {
   const { fieldState, field } = useController({ ...props, defaultValue: "" });
   return (
