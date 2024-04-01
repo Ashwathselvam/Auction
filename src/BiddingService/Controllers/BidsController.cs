@@ -12,12 +12,14 @@ namespace BiddingService;
 public class BidsController : ControllerBase
 {
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly GrpcAuctionClient _grpcAuctionClient;
 
     public IMapper _mapper { get; }
-    public BidsController(IMapper mapper, IPublishEndpoint publishEndpoint)
+    public BidsController(IMapper mapper, IPublishEndpoint publishEndpoint, GrpcAuctionClient grpcAuctionClient)
     {
         _mapper = mapper;
         _publishEndpoint = publishEndpoint;
+        _grpcAuctionClient = grpcAuctionClient;
     }
     [Authorize]
     [HttpPost]
@@ -27,7 +29,9 @@ public class BidsController : ControllerBase
 
         if (auction == null)
         {
-            return NotFound();
+            auction = _grpcAuctionClient.GetAuction(auctionId);
+
+            if (auction == null) return BadRequest("Cannot accept bids on this auction at this time");
         }
         if (auction.Seller == User.Identity.Name)
         {
