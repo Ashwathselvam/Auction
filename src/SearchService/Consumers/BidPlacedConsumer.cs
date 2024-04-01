@@ -5,7 +5,7 @@ using SearchService.Models;
 
 namespace SearchService;
 
-public class BidPlacedConsumer
+public class BidPlacedConsumer : IConsumer<BidPlaced>
 {
     public async Task Consume(ConsumeContext<BidPlaced> context)
     {

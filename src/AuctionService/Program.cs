@@ -43,6 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     options.TokenValidationParameters.ValidateAudience = false;
     options.TokenValidationParameters.NameClaimType = "username";
 });
+builder.Services.AddGrpc();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 //app.UseHttpsRedirection();
@@ -50,7 +51,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapGrpcService<GrpcAuctionServices>();
 try
 {
     DbInitializer.InitDb(app);

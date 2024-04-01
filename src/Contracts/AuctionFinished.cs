@@ -8,7 +8,7 @@ public class AuctionFinished
 
     public string Winner { get; set; }
 
-    public string seller { get; set; }
+    public string Seller { get; set; }
 
     public int? Amount { get; set; }
 }
