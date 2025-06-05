@@ -6,7 +6,5 @@
 
 - **User Authentication:** Secure login and registration system.  
 - **Auction Management:** Create, edit, and delete auction listings.  
-- **Real-Time Bidding:** Participate in live auctions with real-time bid updates.  
-- **Responsive Design:** Optimized for both desktop and mobile devices.  
-- **Dockerized Deployment:** Easily deploy the application using Docker and Docker Compose.  
+- **Real-Time Bidding:** Participate in live auctions with real-time bid updates. 
 
